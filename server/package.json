@@ -1,0 +1,30 @@
+{
+  "name": "expense-manager-backend-mongodb",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node server.ts"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "groq-sdk": "^0.37.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.19.1",
+    "openai": "^6.17.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
