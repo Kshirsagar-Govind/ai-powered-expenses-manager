@@ -5,11 +5,12 @@ import routerUser from "./src/routes/user.routes";
 import routerExpense from "./src/routes/expenses.routes";
 import routerExpenseType from "./src/routes/expenseTypes.routes";
 import { connectDatabase } from "./src/config/db";
-
+import path from "path";
 dotenv.config();
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5001;
+const frontendPath = path.join(__dirname, "../../frontend/dist");
 
 app.use(cors({
     origin: ["http://localhost:5173", "https://expense-app-frontend-rdlg0wcbf-kshirsagargovinds-projects.vercel.app"],
@@ -28,14 +29,21 @@ app.use("/api/v1/user", routerUser);
 app.use("/api/v1/expenses", routerExpense);
 app.use("/api/v1/expense/types", routerExpenseType);
 
+app.use(express.static(frontendPath));
+if (process.env.NODE_ENV == 'production') {
+    app.get("*", (_req: Request, res: Response) => {
+        res.sendFile(path.join(frontendPath, "index.html"));
+    });
+}
+
 export { app };
 
 async function startServer() {
     try {
         await connectDatabase();
-        app.listen(PORT, () => console.log(`SERVER IS RUNNING ON PORT ${PORT}`));
+        app.listen(PORT, () => console.log(`✅ SERVER (${process.env.NODE_ENV}) IS RUNNING ON PORT ${PORT}`));
     } catch (error) {
-        console.error("Failed to start server:", error);
+        console.error("❌ Failed to start server:", error);
         process.exit(1);
     }
 }

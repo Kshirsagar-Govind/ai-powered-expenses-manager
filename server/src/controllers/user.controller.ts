@@ -15,8 +15,8 @@ export const RegisterNewUser = async (req: Request, res: Response) => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Please provide a valid email address" });
         if (password.length < 6) return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Password must be at least 6 characters long" });
         if (await User.exists({ email: email.toLowerCase() })) return res.status(StatusCodes.CONFLICT).json({ msg: "User with this email already exists" });
-
-        const user = await User.create({ name, email, password: await bcrypt.hash(password, 10) });
+        let hash = await bcrypt.hash(password, 10)
+        const user = await User.create({ name, email, password: hash });
         return res.status(StatusCodes.CREATED).json({ msg: "Account created successfully", token: generateToken(publicUser(user)), user: publicUser(user) });
     } catch (error: any) {
         if (error?.code === 11000) return res.status(StatusCodes.CONFLICT).json({ msg: "User with this email already exists" });
@@ -29,10 +29,14 @@ export const LoginUser = async (req: Request, res: Response) => {
         const { email, password } = req.body;
         if (!email || !password) return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Please provide both email and password" });
         const user = await User.findOne({ email: email.toLowerCase() });
-        if (!user || !(await bcrypt.compare(password, user.password))) return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Invalid email or password" });
+        user && console.log(await bcrypt.hash(user.password, 10));
+
+        if (!user || !(await bcrypt.compare(password, user.password))) return res.status(StatusCodes.UNAUTHORIZED).
+            json({ msg: "Invalid email or password" });
         const safeUser = publicUser(user);
         return res.status(StatusCodes.OK).json({ msg: "User logged in successfully", token: generateToken(safeUser), user: safeUser });
-    } catch (_error) {
+    } catch (error) {
+        console.log(error, '++++++++++++++++++++++++++++++++');
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "An error occurred during login" });
     }
 };

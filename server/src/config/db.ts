@@ -5,8 +5,6 @@ dotenv.config();
 
 export async function connectDatabase(): Promise<void> {
     const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
-    console.log(process.env);
-
     if (!uri) {
         throw new Error("MONGODB_URI missing in .env");
     }

@@ -5,8 +5,8 @@ import api from '../config/axios';
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: 'i.am.tester@yopmail.com',
+    password: 'Test@123',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,14 +26,15 @@ export default function Login() {
 
     try {
       const response = await api.post('/user/login', {
-        email: formData.email,
-        password: formData.password,
+        email: formData.email.trim(),
+        password: formData.password.trim(),
       });
-
+      console.log(response);
+      alert('response checking...')
       if (response.data.token) {
         // Store token in localStorage
         localStorage.setItem('token', response.data.token);
-        
+
         // Optionally store user data
         if (response.data.user) {
           localStorage.setItem('user', JSON.stringify(response.data.user));

@@ -1,0 +1,66 @@
+Folder structure for f:\1. VVIMP - Complete Prepration\New Expenses App\app
+
+app/
+├── frontend/
+│   ├── public/
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── assets/
+│   │   │   └── react.svg
+│   │   ├── config/
+│   │   │   └── axios.ts
+│   │   ├── pages/
+│   │   │   ├── addExpenses.tsx
+│   │   │   ├── expensesList.tsx
+│   │   │   ├── login.tsx
+│   │   │   └── register.tsx
+│   │   ├── services/
+│   │   │   ├── categories.ts
+│   │   │   └── expense.ts
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   └── main.tsx
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.cjs
+│   ├── README.md
+│   ├── tailwind.config.cjs
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+└── server/
+│   ├── src/
+│   │   ├── ai/
+│   │   │   └── expense.parser.ts
+│   │   ├── config/
+│   │   │   ├── db.ts
+│   │   │   └── groq.ts
+│   │   ├── controllers/
+│   │   │   ├── expenses.controller.ts
+│   │   │   ├── expenseTypes.controller.ts
+│   │   │   └── user.controller.ts
+│   │   ├── middlewares/
+│   │   │   └── verifyToken.ts
+│   │   ├── models/
+│   │   │   ├── expense.model.ts
+│   │   │   ├── expenseCategory.model.ts
+│   │   │   ├── index.ts
+│   │   │   └── user.model.ts
+│   │   ├── promts/
+│   │   │   └── expense.promt.ts
+│   │   ├── routes/
+│   │   │   ├── expenses.routes.ts
+│   │   │   ├── expenseTypes.routes.ts
+│   │   │   └── user.routes.ts
+│   │   └── utils/
+│   │   │   ├── jwt.ts
+│   │   │   └── openai.ts
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   ├── server.ts
+│   └── tsconfig.json
