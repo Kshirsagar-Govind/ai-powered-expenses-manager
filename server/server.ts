@@ -6,7 +6,10 @@ import routerExpense from "./src/routes/expenses.routes";
 import routerExpenseType from "./src/routes/expenseTypes.routes";
 import { connectDatabase } from "./src/config/db";
 import path from "path";
+import fs from "fs";
 dotenv.config();
+
+
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5001;
@@ -41,6 +44,11 @@ app.use("/api/v1/expense/types", routerExpenseType);
 
 app.use(express.static(frontendPath));
 if (process.env.NODE_ENV == 'production') {
+
+    console.log("Resolved frontendPath:", frontendPath);
+    console.log("Exists?", fs.existsSync(frontendPath));
+    console.log("index.html exists?", fs.existsSync(path.join(frontendPath, "index.html")));
+
     app.get("*", (_req: Request, res: Response) => {
         res.sendFile(path.join(frontendPath, "index.html"));
     });

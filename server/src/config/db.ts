@@ -14,9 +14,9 @@ export async function connectDatabase(): Promise<void> {
             serverSelectionTimeoutMS: 10000,
             connectTimeoutMS: 10000,
         });
-        console.log(`MongoDB connected to ${mongoose.connection.host}`);
+        console.log(`✅ MongoDB connected to ${mongoose.connection.host}`);
     } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        throw new Error(`MongoDB connection failed: ${message}`);
+        throw new Error(`❌ MongoDB connection failed: ${message}`);
     }
 }
