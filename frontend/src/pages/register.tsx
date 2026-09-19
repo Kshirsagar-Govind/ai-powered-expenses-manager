@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../config/axios';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -49,12 +50,13 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-5 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-800">
+    <div className="min-h-screen bg-gray-100 dark:bg-[#151421] flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
+      <div className="relative w-full max-w-md bg-white dark:bg-[#201e30] rounded-2xl shadow-lg p-5 sm:p-8">
+        <div className="mb-4 flex justify-end"><ThemeToggle /></div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-800 dark:text-white">
           Create account
         </h1>
-        <p className="text-center text-gray-500 text-sm mb-6">
+        <p className="text-center text-gray-500 dark:text-gray-300 text-sm mb-6">
           Sign up to start tracking your expenses
         </p>
 
@@ -66,7 +68,7 @@ export default function Register() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Name
             </label>
             <input
@@ -82,7 +84,7 @@ export default function Register() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Email
             </label>
             <input
@@ -98,7 +100,7 @@ export default function Register() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Password
             </label>
             <input
@@ -112,7 +114,7 @@ export default function Register() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="At least 6 characters"
             />
-            <p className="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-300">Minimum 6 characters</p>
           </div>
 
           <button
@@ -124,7 +126,7 @@ export default function Register() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-600">
+        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
           Already have an account?{' '}
           <Link to="/login" className="font-medium text-blue-600 hover:text-blue-700">
             Log in

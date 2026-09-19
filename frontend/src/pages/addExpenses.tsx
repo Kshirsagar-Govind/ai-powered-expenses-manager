@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { submitExpenseAI, updateExpense, type Expense } from '../services/expense';
 import { fetchCategories, type ExpenseCategory } from '../services/categories';
+import ThemeToggle from "../components/ThemeToggle";
 
 interface ParsedExpense {
     id: string;
@@ -131,9 +132,9 @@ export default function AddExpense() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8">
+        <div className="min-h-screen bg-gray-100 dark:bg-[#151421] flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8">
 
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-4 sm:p-6 max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto">
+            <div className="w-full max-w-md bg-white dark:bg-[#201e30] rounded-2xl shadow-lg p-4 sm:p-6 max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto">
 
                 {/* Title */}
                 <div className="flex items-center gap-3 mb-5 sm:mb-6">
@@ -145,9 +146,10 @@ export default function AddExpense() {
                     >
                         ←
                     </button>
-                    <h1 className="flex-1 text-xl sm:text-2xl font-semibold text-gray-900 text-center mr-11">
+                    <h1 className="flex-1 text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white text-center mr-11">
                         Add Expense
                     </h1>
+                    <ThemeToggle />
                 </div>
                 {
                     aiUnavailable &&

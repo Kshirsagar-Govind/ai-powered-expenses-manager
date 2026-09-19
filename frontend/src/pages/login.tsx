@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../config/axios';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -51,9 +52,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-5 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800">
+    <div className="min-h-screen bg-gray-100 dark:bg-[#151421] flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
+      <div className="relative w-full max-w-md bg-white dark:bg-[#201e30] rounded-2xl shadow-lg p-5 sm:p-8">
+        <div className="mb-4 flex justify-end"><ThemeToggle /></div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800 dark:text-white">
           Login
         </h1>
 
@@ -65,7 +67,7 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Email
             </label>
             <input
@@ -81,7 +83,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Password
             </label>
             <input
@@ -105,7 +107,7 @@ export default function Login() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-600">
+        <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
           Don&apos;t have an account?{' '}
           <Link to="/register" className="font-medium text-blue-600 hover:text-blue-700">
             Create one

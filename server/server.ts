@@ -14,6 +14,9 @@ dotenv.config();
 const app = express();
 const PORT = Number(process.env.PORT) || 5001;
 const frontendPath = path.join(__dirname, "../../frontend/dist");
+
+console.log({ NODE_ENV: process.env.NODE_ENV });
+
 const allowedOrigins = [
     process.env.FRONTEND_URL,
     ...(process.env.CORS_ORIGINS || "").split(","),

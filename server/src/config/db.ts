@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export async function connectDatabase(): Promise<void> {
-    const uri = (process.env.MONGODB_URI || process.env.MONGO_URI)?.trim();
+    const uri = "mongodb://127.0.0.1:27017/expense-manager"// (process.env.MONGODB_URI || process.env.MONGO_URI)?.trim();
+    console.log({ uri, env: process.env.NODE_ENV, uri2: process.env.MONGODB_URI });
+
     if (!uri) {
         throw new Error("MONGODB_URI missing in .env");
     }
