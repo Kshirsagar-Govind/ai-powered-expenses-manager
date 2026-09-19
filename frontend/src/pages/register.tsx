@@ -49,9 +49,9 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-center mb-2 text-gray-800">
+    <div className="min-h-screen bg-gray-100 flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-5 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-800">
           Create account
         </h1>
         <p className="text-center text-gray-500 text-sm mb-6">
@@ -76,7 +76,7 @@ export default function Register() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="Your name"
             />
           </div>
@@ -92,7 +92,7 @@ export default function Register() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="Enter your email"
             />
           </div>
@@ -109,7 +109,7 @@ export default function Register() {
               onChange={handleChange}
               required
               minLength={6}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="At least 6 characters"
             />
             <p className="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
@@ -118,7 +118,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? 'Creating account...' : 'Create account'}
           </button>

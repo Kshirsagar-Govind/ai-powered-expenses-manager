@@ -49,6 +49,13 @@ export default function ExpenseList() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.dispatchEvent(new Event("authStateChange"));
+    navigate("/login", { replace: true });
+  };
+
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this expense?")) return;
 
@@ -98,16 +105,24 @@ export default function ExpenseList() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-4 sm:p-8">
+    <div className="min-h-screen bg-white px-3 py-4 sm:p-8">
       <div className="max-w-3xl mx-auto">
-        <div className="flex mb-6 justify-between items-center">
+        <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:justify-between sm:items-center">
           <h1 className="text-2xl font-semibold text-black">Expenses</h1>
-          <button
-            onClick={() => navigate("/expenses/add")}
-            className="bg-black text-white py-2 px-4 rounded-xl font-medium hover:bg-gray-900 transition"
-          >
-            + Add Expense
-          </button>
+          <div className="grid grid-cols-2 gap-2 w-full sm:flex sm:w-auto">
+            <button
+              onClick={() => navigate("/expenses/add")}
+              className="bg-black text-white py-3 px-3 sm:py-2 sm:px-4 rounded-xl font-medium hover:bg-gray-900 transition"
+            >
+              + Add Expense
+            </button>
+            <button
+              onClick={handleLogout}
+              className="border border-gray-300 text-black py-3 px-3 sm:py-2 sm:px-4 rounded-xl font-medium hover:bg-gray-100 transition"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Error Alert */}
@@ -125,7 +140,7 @@ export default function ExpenseList() {
 
         {/* Loading State */}
         {loading ? (
-          <div className="text-center py-20">
+          <div className="text-center py-16 sm:py-20">
             <div className="inline-block">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
             </div>
@@ -144,7 +159,7 @@ export default function ExpenseList() {
         ) : (
           <>
             {/* Summary */}
-            <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+            <div className="mb-6 p-4 sm:p-5 bg-gray-50 border border-gray-200 rounded-xl">
               <p className="text-sm text-gray-600">Total Spending</p>
               <p className="text-2xl font-bold text-black">
                 ₹{expenses.reduce((sum, exp) => sum + exp.amount, 0).toLocaleString("en-IN")}
@@ -155,20 +170,21 @@ export default function ExpenseList() {
             </div>
 
             {/* List */}
-            <div className="space-y-3 p-5 bg-stone-100 border-none border rounded-md max-h-[70vh] overflow-y-auto">
-              {expenses.map((exp:any) => (
+            <div className="space-y-3 p-2 sm:p-5 bg-stone-100 border-none rounded-md max-h-[70vh] overflow-y-auto">
+              {expenses.map((exp: any) => (
                 <div
                   key={exp.id}
                   className="
-                  flex 
-                  items-center 
+                  flex flex-col gap-3
+                  items-stretch
+                  sm:flex-row sm:items-center
                   justify-between 
                   bg-gray-50 
                   border border-gray-200 
-                  rounded-xl p-4 hover:shadow-md transition"
+                  rounded-xl p-3 sm:p-4 hover:shadow-md transition"
                 >
                   {/* Left - Category Badge & Details */}
-                  <div className="flex items-center gap-3 flex-1">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div
                       className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-semibold text-sm"
                       style={{
@@ -177,20 +193,20 @@ export default function ExpenseList() {
                     >
                       {exp.category?.name?.charAt(0).toUpperCase() || "E"}
                     </div>
-                    <div className="flex-1">
-                      <p className="text-black font-medium">
+                    <div className="min-w-0 flex-1">
+                      <p className="text-black font-medium break-words">
                         {exp.description || exp.category?.name || "Expense"}
                       </p>
                       <p className="text-xs text-gray-500">
                         {exp.category?.name && `${exp.category.name} • `}
-                        {formatDate(exp.createdAt)} • {exp.category.name}
+                        {formatDate(exp.createdAt)}{exp.category?.name && ` • ${exp.category.name}`}
                       </p>
                     </div>
                   </div>
 
                   {/* Right - Amount & Delete */}
-                  <div className="flex items-center gap-4">
-                    <p className="text-black font-semibold text-lg">₹{exp.amount}</p>
+                  <div className="flex items-center justify-between gap-3 sm:justify-end">
+                    <p className="text-black font-semibold text-lg">₹{exp.amount.toLocaleString("en-IN")}</p>
                     <button
                       onClick={() => openEdit(exp)}
                       className="text-gray-400 hover:text-black transition font-bold text-lg mr-2"
@@ -216,7 +232,7 @@ export default function ExpenseList() {
         {editingExpense && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black opacity-40" onClick={() => setEditingExpense(null)} />
-            <div className="relative bg-white w-full max-w-lg rounded-xl shadow-lg p-6 z-10">
+            <div className="relative bg-white w-[calc(100%-1.5rem)] max-w-lg max-h-[90vh] overflow-y-auto rounded-xl shadow-lg p-4 sm:p-6 z-10">
               <h2 className="text-lg font-semibold mb-4">Edit Expense</h2>
               <div className="space-y-3">
                 <div>

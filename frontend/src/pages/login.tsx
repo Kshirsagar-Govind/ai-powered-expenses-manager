@@ -5,17 +5,15 @@ import api from '../config/axios';
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: 'i.am.tester@yopmail.com',
-    password: 'Test@123',
+    email: '',
+    password: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((current) => ({ ...current, [name]: value }));
     setError('');
   };
 
@@ -27,10 +25,8 @@ export default function Login() {
     try {
       const response = await api.post('/user/login', {
         email: formData.email.trim(),
-        password: formData.password.trim(),
+        password: formData.password,
       });
-      console.log(response);
-      alert('response checking...')
       if (response.data.token) {
         // Store token in localStorage
         localStorage.setItem('token', response.data.token);
@@ -55,9 +51,9 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+    <div className="min-h-screen bg-gray-100 flex items-start sm:items-center justify-center px-3 py-6 sm:px-4 sm:py-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-5 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800">
           Login
         </h1>
 
@@ -79,7 +75,7 @@ export default function Login() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="Enter your email"
             />
           </div>
@@ -95,7 +91,7 @@ export default function Login() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
               placeholder="Enter your password"
             />
           </div>
@@ -103,7 +99,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>

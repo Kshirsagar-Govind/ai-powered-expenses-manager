@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { submitExpenseAI, updateExpense } from '../services/expense';
+import { useNavigate } from "react-router-dom";
+import { submitExpenseAI, updateExpense, type Expense } from '../services/expense';
 import { fetchCategories, type ExpenseCategory } from '../services/categories';
 
 interface ParsedExpense {
@@ -11,7 +12,12 @@ interface ParsedExpense {
     categoryId?: string;
 }
 
+type ExpenseResponse = Omit<Expense, "categoryId"> & {
+    categoryId: string | { name?: string; _id?: string };
+};
+
 export default function AddExpense() {
+    const navigate = useNavigate();
     const [inputText, setInputText] = useState("");
     const [parsedExpense, setParsedExpense] = useState<ParsedExpense | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -58,17 +64,19 @@ export default function AddExpense() {
                 setIsEditing(true);
                 setAIUnavailable(true);
             }
-            const expense = res.data;
-            const categoryName = expense.categoryId;
+            const expense = res.data as ExpenseResponse;
+            const categoryName = typeof expense.categoryId === "object"
+                ? (expense.categoryId?.name || expense.categoryId?._id?.toString() || "")
+                : expense.categoryId;
             const existingCategory = categories.find(cat => cat.id === categoryName);
 
             setParsedExpense({
                 id: expense.id,
                 amount: expense.amount,
-                category: existingCategory?.name || categoryName,
+                category: existingCategory?.name || (typeof categoryName === "string" ? categoryName : "Unknown"),
                 description: expense.description || "",
                 date: new Date(expense.createdAt).toISOString().split("T")[0],
-                categoryId: existingCategory?.id || expense.categoryId
+                categoryId: existingCategory?.id || (typeof expense.categoryId === "object" ? expense.categoryId?._id : expense.categoryId)
             });
             setIsEditing(false);
             setInputText("");
@@ -110,15 +118,37 @@ export default function AddExpense() {
         }
     };
 
-    return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-8">
+    const handleAddMore = () => {
+        setParsedExpense(null);
+        setInputText("");
+        setError("");
+        setSuccess("");
+        setAIUnavailable(false);
+    };
 
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 max-h-[85vh] overflow-y-auto">
+    const handleBack = () => {
+        navigate("/expenses");
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-100 flex items-start sm:items-center justify-center px-3 py-4 sm:px-4 sm:py-8">
+
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-4 sm:p-6 max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto">
 
                 {/* Title */}
-                <h1 className="text-2xl font-semibold text-gray-900 text-center mb-6">
-                    Add Expense
-                </h1>
+                <div className="flex items-center gap-3 mb-5 sm:mb-6">
+                    <button
+                        type="button"
+                        onClick={handleBack}
+                        className="min-h-11 min-w-11 px-3 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 transition"
+                        aria-label="Back to expenses"
+                    >
+                        ←
+                    </button>
+                    <h1 className="flex-1 text-xl sm:text-2xl font-semibold text-gray-900 text-center mr-11">
+                        Add Expense
+                    </h1>
+                </div>
                 {
                     aiUnavailable &&
                     <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -204,29 +234,26 @@ export default function AddExpense() {
                                     </div>
                                 </div>
 
-                                <div className="flex gap-3">
+                                <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-3">
+                                    <button
+                                        onClick={() => navigate("/expenses")}
+                                        className="bg-black text-white py-3 min-h-12 rounded-xl font-medium hover:bg-gray-900 transition"
+                                    >
+                                        Save
+                                    </button>
                                     <button
                                         onClick={() => setIsEditing(true)}
-                                        className="flex-1 border border-gray-300 text-gray-900 py-3 rounded-xl font-medium hover:bg-gray-50 transition"
+                                        className="border border-gray-300 text-gray-900 py-3 min-h-12 rounded-xl font-medium hover:bg-gray-50 transition"
                                     >
                                         Edit
                                     </button>
-                                    {/* <button
-                                        onClick={handleConfirmExpense}
-                                        className="flex-1 bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 transition"
-                                    >
-                                        Confirm
-                                    </button> */}
                                 </div>
 
                                 <button
-                                    onClick={() => {
-                                        setParsedExpense(null);
-                                        setInputText("");
-                                    }}
-                                    className="w-full text-sm text-gray-600 py-2 mt-3 hover:text-gray-900 transition"
+                                    onClick={handleAddMore}
+                                    className="w-full border border-gray-200 text-gray-700 py-3 min-h-12 mt-3 rounded-xl font-medium hover:bg-gray-50 transition"
                                 >
-                                    Cancel & Start Over
+                                    + Add More
                                 </button>
                             </>
                         ) : (

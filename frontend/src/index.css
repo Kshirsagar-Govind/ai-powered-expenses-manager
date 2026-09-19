@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        background: #f3f4f6;
+    }
+
+    body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        font: inherit;
+    }
+}
